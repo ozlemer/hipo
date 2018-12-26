@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+     <form action="/search" method="get">
+        <h1>Form</h1>
+         <input type="text" name="query" placeholder="Tags...">
+        <input type = "submit" value = "Search">
+     </form>
+
+    {% for r in result.photos.photo %}
+        <div style="text-align: center">
+            <img src="https://farm{{ r.farm }}.staticflickr.com/{{ r.server }}/{{ r.id }}_{{ r.secret }}.jpg">
+            {{ r.title }}
+        </div>
+    {% endfor %}
+
+
+
+</body>
+</html>

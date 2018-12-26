@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-gap: 10px;
+      height: 1000px;
+      width: 1000px;
+      align-items: stretch;
+      justify-items: stretch;
+      background-color: black
+      align-content: start
+     }
+    .grid img {
+      border: 1px solid #ccc;
+      box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
+      max-width: 100%;
+
+    }
+    .container {
+      position: relative;
+      font-family: Arial;
+
+    }
+
+    .text-block {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      height: 50px;
+      width: 100px;
+      background-color: gray;
+      color: white;
+      padding-left: 20px;
+      padding-right: 20px;
+
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+     <div style="text-align: center">
+         <form action="/search" method="get">
+            <h1>The ultimate Flicker Client</h1>
+             <input type="text" name="query" placeholder="Tags...">
+             <input type = "submit" value = "Search">
+         </form>
+     </div>
+
+     {% for recent_search in recent_searches %}
+        <div style="text-align: right">
+            <p>{{ recent_search.tag }}</p>
+        </div>
+     {% endfor %}
+
+
+
+
+    <main class="grid">
+        {% for result in results.photos.photo %}
+            <div class="container">
+                <img src="https://farm{{ result.farm }}.staticflickr.com/{{ result.server }}/{{ result.id }}_{{ result.secret }}.jpg">
+                <div class="text-block">
+
+                    <p>{{ result.title }}</p>
+                </div>
+            </div>
+
+
+        {% endfor %}
+    </main>
+
+</body>
+</html>

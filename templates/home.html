@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+</head>
+<style>
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
+.row-bottom {
+    position: absolute;
+    left: 0;
+    width: 1000px;
+    height:1000px;
+}
+
+#main-content {
+    position: relative;
+    float: left;
+    margin-top: 64px;
+}
+
+.bounded {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.heading {
+    background-color: #f5f5f5;
+}
+
+.polaroid {
+    box-shadow: 0 0px 1px 0 rgba(0, 0, 0, 0.2), 0 0px 0px 0 rgba(0, 0, 0, 0.19);
+}
+</style>
+<body>
+    <div>
+        <div class="col-md-offset-2 col-md-8">
+            <h1 class="heading">
+                The ultimate Flicker Client
+            </h1>
+            <div class="form">
+                      <form action="/search" method="get">
+                          <input type="text" required="" placeholder="Tags..." value="" name="query" class="txt" >
+                          <input type="submit" value="Search" name="submit" class="txt2">
+                      </form>
+                  </div>
+        </div>
+
+        <div id="main-content" class="col-md-offset-1 col-md-7">
+                <div class="container-fluid">
+                 {% for result in results.photos.photo %}
+                    <div class="col-md-6 ">
+                        <div class="thumbnail">
+                        <img src="https://farm{{ result.farm }}.staticflickr.com/{{ result.server }}/{{ result.id }}_{{ result.secret }}.jpg/" class="img-responsive" style="height:300px">
+                            <div class="caption heading">
+                                <p class="bounded">{{ result.title }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+        </div>
+        <div id="main-content" class="col-md-3">
+            <div class="panel panel-default clearfix polaroid">
+                <div class="panel-heading heading">
+                    <h3>Recent Search</h3>
+                </div>
+                <ul class="list-group">
+
+                {% if not recent_searches %}
+                   <li class="list-group list-group-item">
+                        Üzgünüm hiç kayıt yok
+                    </li>
+                {% endif %}
+
+                {% for recent_search in recent_searches %}
+
+                    <li class="list-group list-group-item">{{ recent_search.tag }}</li>
+
+                {% endfor %}
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
