@@ -29,6 +29,7 @@
 .bounded {
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .heading {
     background-color: #f5f5f5;
@@ -40,7 +41,7 @@
 </style>
 <body>
     <div>
-        <div class="col-md-offset-2 col-md-8">
+        <div class="col-md-offset-2 col-md-8 col-sm-8 ">
             <h1 class="heading">
                 The ultimate Flicker Client
             </h1>
@@ -52,36 +53,57 @@
                   </div>
         </div>
 
-        <div id="main-content" class="col-md-offset-1 col-md-7">
+        <div id="main-content" class="col-md-offset-1 col-md-7 col-sm-7 ">
                 <div class="container-fluid">
-                 {% for result in results.photos.photo %}
-                    <div class="col-md-6 ">
+                 {% for picture in pictures %}
+                    <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="thumbnail">
-                        <img src="https://farm{{ result.farm }}.staticflickr.com/{{ result.server }}/{{ result.id }}_{{ result.secret }}.jpg/" class="img-responsive" style="height:300px">
-                            <div class="caption heading">
-                                <p class="bounded">{{ result.title }}</p>
+                        <img src="https://farm{{ picture.farm }}.staticflickr.com/{{ picture.server }}/{{ picture.id }}_{{ picture.secret }}.jpg/" class="img-responsive" style="height:300px">
+                            <div class="caption heading bounded">
+                                <p class="bounded">{{ picture.title }}</p>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
+
+
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="pagination">
+                            <span class="step-links">
+                                {% if pictures.has_previous %}
+                                    <a href="/search/?query={{request.GET.query}}&submit=Search&page={{ pictures.previous_page_number }}">previous</a>
+                                {% endif %}
+
+
+                                <span class="current">
+                                     {{ pictures.number }}    {{ pictures.paginator.num_pages }}
+                                </span>
+
+
+                                {% if pictures.has_next %}
+                                    <a href="/search/?query={{request.GET.query}}&submit=Search&page={{ pictures.next_page_number }}">next</a>
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
                 </div>
         </div>
-        <div id="main-content" class="col-md-3">
+        <div id="main-content" class="col-md-3 col-sm-3 col-xs-3">
             <div class="panel panel-default clearfix polaroid">
                 <div class="panel-heading heading">
-                    <h3>Recent Search</h3>
+                    <h3>Recent Searches</h3>
                 </div>
                 <ul class="list-group">
 
                 {% if not recent_searches %}
                    <li class="list-group list-group-item">
-                        Üzgünüm hiç kayıt yok
+                        No records at all...
                     </li>
                 {% endif %}
 
                 {% for recent_search in recent_searches %}
 
-                    <li class="list-group list-group-item">{{ recent_search.tag }}</li>
+                    <li class="list-group list-group-item"><a href="/search/?query={{ recent_search.tag }}&submit=Search">{{ recent_search.tag }}</a></li>
 
                 {% endfor %}
 
