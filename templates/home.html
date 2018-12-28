@@ -55,39 +55,41 @@
 
         <div id="main-content" class="col-md-offset-1 col-md-7 col-sm-7 ">
                 <div class="container-fluid">
-                 {% for picture in pictures %}
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                        <div class="thumbnail">
-                        <img src="https://farm{{ picture.farm }}.staticflickr.com/{{ picture.server }}/{{ picture.id }}_{{ picture.secret }}.jpg/" class="img-responsive" style="height:300px">
-                            <div class="caption heading bounded">
-                                <p class="bounded">{{ picture.title }}</p>
+                     {% for picture in pictures %}
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <div class="thumbnail">
+                            <img src="https://farm{{ picture.farm }}.staticflickr.com/{{ picture.server }}/{{ picture.id }}_{{ picture.secret }}.jpg/" class="img-responsive" style="height:300px">
+                                <div class="caption heading bounded">
+                                    <p class="bounded">{{ picture.title }}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
 
+                     <div class="row">
+                         <div class="col-md-offset-3 col-md-6 col-sm-6 col-xs-6">
+                            <div class="pagination">
+                                <span class="step-links">
+                                    {% if pictures.has_previous %}
+                                        <a href="/search/?query={{request.GET.query}}&submit=Search&page={{ pictures.previous_page_number }}" class="btn btn-info" role="button">previous</a>
+                                    {% endif %}
 
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                        <div class="pagination">
-                            <span class="step-links">
-                                {% if pictures.has_previous %}
-                                    <a href="/search/?query={{request.GET.query}}&submit=Search&page={{ pictures.previous_page_number }}">previous</a>
-                                {% endif %}
+                                    {% if request.GET.query %}
+                                        <span class="current">
+                                             Page {{ pictures.number }}  of  {{ pictures.paginator.num_pages }}
+                                        </span>
+                                    {% endif %}
 
-
-                                <span class="current">
-                                     {{ pictures.number }}    {{ pictures.paginator.num_pages }}
+                                    {% if pictures.has_next %}
+                                        <a href="/search/?query={{request.GET.query}}&submit=Search&page={{ pictures.next_page_number }}" class="btn btn-info" role="button">next</a>
+                                    {% endif %}
                                 </span>
-
-
-                                {% if pictures.has_next %}
-                                    <a href="/search/?query={{request.GET.query}}&submit=Search&page={{ pictures.next_page_number }}">next</a>
-                                {% endif %}
-                            </span>
+                            </div>
                         </div>
-                    </div>
+                     </div>
                 </div>
         </div>
+
         <div id="main-content" class="col-md-3 col-sm-3 col-xs-3">
             <div class="panel panel-default clearfix polaroid">
                 <div class="panel-heading heading">
